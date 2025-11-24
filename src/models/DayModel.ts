@@ -6,7 +6,7 @@ const DaySchema = new Schema({
     imgUrl: { type: String, required: false },
     attachments: { type: [String], required: false, default: [] },
     hasSentAuto: { type: Boolean, required: true, default: false },
-    link: { type: String, required: false, default: [] },
+    link: { type: String, required: false },
 });
 
 export const DayModel = model("Day", DaySchema);

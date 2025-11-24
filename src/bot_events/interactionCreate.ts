@@ -74,15 +74,20 @@ export class InteractionCreate implements Event {
             .send({ embeds: [embed] })
             .catch(async (err) =>  interaction.reply({content:"För att få julkalender så måste du sätta på dms från servern!",ephemeral:true}));
 
-           
+        
+        let files = [];
         if(dayData.imgUrl){
-            interaction.user.send({ files: [new AttachmentBuilder(dayData.imgUrl)] }).catch(err => {});
+            files.push(new AttachmentBuilder(dayData.imgUrl));
         }
 
         if(dayData.attachments && dayData.attachments.length > 0){
             for(const att of dayData.attachments){
-                interaction.user.send({ files: [new AttachmentBuilder(att)] }).catch(err => {});
+                files.push(new AttachmentBuilder(att));
             }
+        }
+
+        if(files.length > 0){
+            await interaction.user.send({ files }).catch(err => {});
         }
 
         interaction.deferUpdate();

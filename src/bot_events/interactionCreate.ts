@@ -9,13 +9,18 @@ export class InteractionCreate implements Event {
     async runEvent (client: Client, interaction: Interaction){
 
         if(interaction.inGuild() === false) return;
+        try{
+            if(interaction.isCommand()){
+                await this.onCommand(interaction as ChatInputCommandInteraction);
+            }
+            if(interaction.isButton()){
+                await this.dayButton(interaction as ButtonInteraction);
+                await this.lotteryButton(interaction as ButtonInteraction);
+            }
 
-        if(interaction.isCommand()){
-            await this.onCommand(interaction as ChatInputCommandInteraction);
         }
-        if(interaction.isButton()){
-            await this.dayButton(interaction as ButtonInteraction);
-            await this.lotteryButton(interaction as ButtonInteraction);
+        catch(error){
+            console.error(error);
         }
     }
     async onCommand(interaction: ChatInputCommandInteraction){

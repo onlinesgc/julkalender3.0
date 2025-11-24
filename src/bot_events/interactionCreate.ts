@@ -90,6 +90,10 @@ export class InteractionCreate implements Event {
             await interaction.user.send({ files }).catch(err => {});
         }
 
+        if(dayData.link){
+            await interaction.user.send({ content: `${dayData.link}` }).catch(err => {});
+        }
+
         interaction.deferUpdate();
     }
 

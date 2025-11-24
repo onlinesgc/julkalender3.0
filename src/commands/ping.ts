@@ -1,4 +1,4 @@
-import { CommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { Command } from "../interfaces/Command";
 
 export class PingCommand implements Command {
@@ -10,7 +10,7 @@ export class PingCommand implements Command {
         .setName(this.name)
         .setDescription(this.description);
 
-    async execute(interaction: CommandInteraction) {
+    async execute(interaction: ChatInputCommandInteraction) {
         const pining_embed = new EmbedBuilder()
             .setColor("#2DD21C")
             .setTitle(":ping_pong:  Ping")

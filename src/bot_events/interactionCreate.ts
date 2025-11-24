@@ -1,14 +1,19 @@
-import { Client, CommandInteraction, Interaction } from "discord.js";
+import { AttachmentBuilder, ButtonInteraction, ChatInputCommandInteraction, Client, CommandInteraction, EmbedBuilder, Interaction } from "discord.js";
 import { Event } from "../interfaces/Event";
 import { BotClient } from "..";
+import { getDay } from "../models/DayModel";
+import { createUser, getUserByDiscordId } from "../models/UserModel";
 
 export class InteractionCreate implements Event {
     async runEvent (client: Client, interaction: Interaction){
         if(interaction.isCommand()){
-            await this.onCommand(interaction);
+            await this.onCommand(interaction as ChatInputCommandInteraction);
+        }
+        if(interaction.isButton()){
+            await this.dayButton(interaction as ButtonInteraction);
         }
     }
-    async onCommand(interaction: CommandInteraction){
+    async onCommand(interaction: ChatInputCommandInteraction){
         const client = interaction.client as BotClient;
         const command = client.commands.get(interaction.commandName);
         if(!command) return;
@@ -28,4 +33,47 @@ export class InteractionCreate implements Event {
         }
     }
     
+    async dayButton(interaction: ButtonInteraction){
+        const [prefix, dayStr] = interaction.customId.split(";");
+        if(prefix !== "day") return;
+        const dayNum = parseInt(dayStr);
+        const dayData = await getDay(dayNum);
+        if(!dayData){
+            await interaction.reply({ content: `Day ${dayNum} does not exist.`, ephemeral: true });
+            return;
+        }
+
+        let userData = await getUserByDiscordId(interaction.user.id);
+        if(userData){
+            await userData.save();
+        }else{
+            userData = await createUser(interaction.user.id);
+            await userData.save();
+        }
+
+        if(userData.days.includes(dayNum)){
+            await interaction.reply({ content: `Du har redan öppnat lucka ${dayNum}!`, ephemeral: true });
+            return;
+        }
+
+        userData.days.push(dayNum);
+        await userData.save();
+
+        const embed = new EmbedBuilder()
+            .setTitle(`Lucka ${dayData.day} av 24, SGC:s discord julkalender`)
+            .setDescription(dayData.text)
+            .setColor("Red")
+            .setFooter({ text: `Julkalender 2023`, iconURL: interaction.client.user?.avatarURL() || undefined })
+            .setTimestamp();
+
+        await interaction.user
+            .send({ embeds: [embed] })
+            .catch(async (err) =>  interaction.reply({content:"För att få julkalender så måste du sätta på dms från servern!",ephemeral:true}));
+
+           
+        if(dayData.imgUrl){
+            interaction.user.send({ files: [new AttachmentBuilder(dayData.imgUrl)] }).catch(err => {});
+        }
+        interaction.deferUpdate();
+    }
 }

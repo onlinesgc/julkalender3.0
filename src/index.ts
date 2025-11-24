@@ -4,6 +4,8 @@ import { Command } from "./interfaces/Command";
 import { Ready } from "./bot_events/ready";
 import { PingCommand } from "./commands/ping";
 import { InteractionCreate } from "./bot_events/interactionCreate";
+import { Day } from "./commands/day";
+import { SendDayCommand } from "./commands/sendDay";
 
 dotenv.config();
 
@@ -40,6 +42,14 @@ client.commandArray = [];
 const pingCommand = new PingCommand();
 client.commands.set("ping", pingCommand);
 client.commandArray.push(pingCommand.data.toJSON());
+
+const dayCommand = new Day();
+client.commands.set("day", dayCommand);
+client.commandArray.push(dayCommand.data.toJSON());
+
+const sendDayCommand = new SendDayCommand();
+client.commands.set("sendday", sendDayCommand);
+client.commandArray.push(sendDayCommand.data.toJSON());
 
 client.once("clientReady", async () => {
     const readyEvent = new Ready();

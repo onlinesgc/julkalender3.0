@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 
 export interface Command {
     name: string;
@@ -6,5 +6,5 @@ export interface Command {
     ephemeral: boolean;
     defer: boolean;
     data: any;
-    execute: (interaction: CommandInteraction) => Promise<void>;
+    execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
 }

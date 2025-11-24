@@ -40,6 +40,8 @@ export class Ready implements Event {
     private async startTimeInterval(client: BotClient){
         setInterval(async () => {
             const day = new Date().getDate();
+            const month = new Date().getMonth() + 1;
+            if(month !== 12) return;
             const hour = new Date().getHours();
             const dayData = await getDay(day);
             if(dayData && !dayData.hasSentAuto && hour >= 8){

@@ -78,6 +78,13 @@ export class InteractionCreate implements Event {
         if(dayData.imgUrl){
             interaction.user.send({ files: [new AttachmentBuilder(dayData.imgUrl)] }).catch(err => {});
         }
+
+        if(dayData.attachments && dayData.attachments.length > 0){
+            for(const att of dayData.attachments){
+                interaction.user.send({ files: [new AttachmentBuilder(att)] }).catch(err => {});
+            }
+        }
+
         interaction.deferUpdate();
     }
 

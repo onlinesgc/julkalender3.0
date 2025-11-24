@@ -22,6 +22,10 @@ if (cmdArgs.length === 2) {
     rest.put(Routes.applicationGuildCommands(cmdArgs[0], cmdArgs[1]), { body: [] })
         .then(() => console.log('Successfully deleted all guild commands.'))
         .catch(console.error);
+
+    rest.put(Routes.applicationCommands(cmdArgs[0]), { body: [] })
+        .then(() => console.log('Successfully deleted all global commands.'))
+        .catch(console.error);
 } else {
     console.log("Usage: node tools/removeAllCommands.js [clientID] [guildID]");
 }

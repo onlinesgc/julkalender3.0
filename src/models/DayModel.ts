@@ -4,6 +4,7 @@ const DaySchema = new Schema({
     day: { type: Number, required: true },
     text: { type: String, required: true },
     imgUrl: { type: String, required: false },
+    attachments: { type: [String], required: false, default: [] },
     hasSentAuto: { type: Boolean, required: true, default: false },
 });
 

@@ -7,6 +7,9 @@ import { getLotteryById } from "../models/lotteryModel";
 
 export class InteractionCreate implements Event {
     async runEvent (client: Client, interaction: Interaction){
+
+        if(interaction.inGuild() === false) return;
+
         if(interaction.isCommand()){
             await this.onCommand(interaction as ChatInputCommandInteraction);
         }

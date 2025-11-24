@@ -6,6 +6,12 @@ import { PingCommand } from "./commands/ping";
 import { InteractionCreate } from "./bot_events/interactionCreate";
 import { Day } from "./commands/day";
 import { SendDayCommand } from "./commands/sendDay";
+import { PasswordCommand } from "./commands/password";
+import { PepparkakorCommand } from "./commands/pepparkakor";
+import { PepparkakorToplistCommand } from "./commands/pepparkakortoplist";
+import { CreateLotteryCommand } from "./commands/skapalotteri";
+import { EndLotteryCommand } from "./commands/avslutalotteri";
+import { AddPasswordCommand } from "./commands/addpassword";
 
 dotenv.config();
 
@@ -50,6 +56,30 @@ client.commandArray.push(dayCommand.data.toJSON());
 const sendDayCommand = new SendDayCommand();
 client.commands.set("sendday", sendDayCommand);
 client.commandArray.push(sendDayCommand.data.toJSON());
+
+const passwordCommand = new PasswordCommand();
+client.commands.set("password", passwordCommand);
+client.commandArray.push(passwordCommand.data.toJSON());
+
+const gingerbreadCommand = new PepparkakorCommand();
+client.commands.set("pepparkakor", gingerbreadCommand);
+client.commandArray.push(gingerbreadCommand.data.toJSON());
+
+const gingerbreadToplistCommand = new PepparkakorToplistCommand();
+client.commands.set("pepparkakortoplist", gingerbreadToplistCommand);
+client.commandArray.push(gingerbreadToplistCommand.data.toJSON());
+
+const createLotteryCommand = new CreateLotteryCommand();
+client.commands.set("skapalotteri", createLotteryCommand);
+client.commandArray.push(createLotteryCommand.data.toJSON());
+
+const endLotteryCommand = new EndLotteryCommand();
+client.commands.set("avslutalotteri", endLotteryCommand);
+client.commandArray.push(endLotteryCommand.data.toJSON());
+
+const addPasswordCommand = new AddPasswordCommand();
+client.commands.set("addpassword", addPasswordCommand);
+client.commandArray.push(addPasswordCommand.data.toJSON());
 
 client.once("clientReady", async () => {
     const readyEvent = new Ready();

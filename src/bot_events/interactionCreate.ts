@@ -3,6 +3,7 @@ import { Event } from "../interfaces/Event";
 import { BotClient } from "..";
 import { getDay } from "../models/DayModel";
 import { createUser, getUserByDiscordId } from "../models/UserModel";
+import { getLotteryById } from "../models/lotteryModel";
 
 export class InteractionCreate implements Event {
     async runEvent (client: Client, interaction: Interaction){
@@ -11,6 +12,7 @@ export class InteractionCreate implements Event {
         }
         if(interaction.isButton()){
             await this.dayButton(interaction as ButtonInteraction);
+            await this.lotteryButton(interaction as ButtonInteraction);
         }
     }
     async onCommand(interaction: ChatInputCommandInteraction){
@@ -35,6 +37,8 @@ export class InteractionCreate implements Event {
     
     async dayButton(interaction: ButtonInteraction){
         const [prefix, dayStr] = interaction.customId.split(";");
+
+
         if(prefix !== "day") return;
         const dayNum = parseInt(dayStr);
         const dayData = await getDay(dayNum);
@@ -75,5 +79,36 @@ export class InteractionCreate implements Event {
             interaction.user.send({ files: [new AttachmentBuilder(dayData.imgUrl)] }).catch(err => {});
         }
         interaction.deferUpdate();
+    }
+
+    async lotteryButton(interaction: ButtonInteraction){
+        const [prefix, lotteryIdStr] = interaction.customId.split(";");
+
+        if(prefix !== "bet_lottery") return;
+        const lottery = await getLotteryById(lotteryIdStr);
+
+        if(!lottery){
+            await interaction.reply({ content: "Lotteriet finns inte längre.", ephemeral: true });
+            return;
+        }
+
+        let userData = await getUserByDiscordId(interaction.user.id);
+        if(!userData){
+            userData = await createUser(interaction.user.id);
+            await userData.save();
+        }
+
+        if(userData.points < 1){
+            await interaction.reply({ content: "Du har inte tillräckligt med pepparkakor för att satsa.", ephemeral: true });
+            return;
+        }
+        userData.points -= 1;
+        lottery.amountBetted.find(entry => entry.userId === interaction.user.id) ?
+            lottery.amountBetted.find(entry => entry.userId === interaction.user.id)!.amount += 1 :
+            lottery.amountBetted.push({ userId: interaction.user.id, amount: 1 });
+        await userData.save();
+        await lottery.save();
+
+        await interaction.reply({ content: `Du har lagt in ${lottery.amountBetted.find(entry => entry.userId === interaction.user.id)?.amount || 0} antal pepparkakor i lotteri ${lotteryIdStr}. Klicka för att lägga till en till.`, ephemeral: true });
     }
 }

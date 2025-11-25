@@ -45,41 +45,22 @@ client.commandArray = [];
 
 // Register commands
 
-const pingCommand = new PingCommand();
-client.commands.set("ping", pingCommand);
-client.commandArray.push(pingCommand.data.toJSON());
+const commands = [
+    { name: "ping", instance: new PingCommand() },
+    { name: "day", instance: new Day() },
+    { name: "sendday", instance: new SendDayCommand() },
+    { name: "password", instance: new PasswordCommand() },
+    { name: "pepparkakor", instance: new PepparkakorCommand() },
+    { name: "pepparkakortoplist", instance: new PepparkakorToplistCommand() },
+    { name: "skapalotteri", instance: new CreateLotteryCommand() },
+    { name: "avslutalotteri", instance: new EndLotteryCommand() },
+    { name: "addpassword", instance: new AddPasswordCommand() }
+];
 
-const dayCommand = new Day();
-client.commands.set("day", dayCommand);
-client.commandArray.push(dayCommand.data.toJSON());
-
-const sendDayCommand = new SendDayCommand();
-client.commands.set("sendday", sendDayCommand);
-client.commandArray.push(sendDayCommand.data.toJSON());
-
-const passwordCommand = new PasswordCommand();
-client.commands.set("password", passwordCommand);
-client.commandArray.push(passwordCommand.data.toJSON());
-
-const gingerbreadCommand = new PepparkakorCommand();
-client.commands.set("pepparkakor", gingerbreadCommand);
-client.commandArray.push(gingerbreadCommand.data.toJSON());
-
-const gingerbreadToplistCommand = new PepparkakorToplistCommand();
-client.commands.set("pepparkakortoplist", gingerbreadToplistCommand);
-client.commandArray.push(gingerbreadToplistCommand.data.toJSON());
-
-const createLotteryCommand = new CreateLotteryCommand();
-client.commands.set("skapalotteri", createLotteryCommand);
-client.commandArray.push(createLotteryCommand.data.toJSON());
-
-const endLotteryCommand = new EndLotteryCommand();
-client.commands.set("avslutalotteri", endLotteryCommand);
-client.commandArray.push(endLotteryCommand.data.toJSON());
-
-const addPasswordCommand = new AddPasswordCommand();
-client.commands.set("addpassword", addPasswordCommand);
-client.commandArray.push(addPasswordCommand.data.toJSON());
+for (const command of commands) {
+    client.commands.set(command.name, command.instance);
+    client.commandArray.push(command.instance.data.toJSON());
+}
 
 client.once("clientReady", async () => {
     const readyEvent = new Ready();

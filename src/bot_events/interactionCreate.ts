@@ -54,7 +54,7 @@ export class InteractionCreate implements Event {
             await interaction.reply({ content: `Day ${dayNum} does not exist.`, ephemeral: true });
             return;
         }
-
+        
         let userData = await getUserByDiscordId(interaction.user.id);
         if(userData){
             await userData.save();
@@ -82,7 +82,7 @@ export class InteractionCreate implements Event {
             .send({ embeds: [embed] })
             .catch(async (err) =>  interaction.reply({content:"För att få julkalender så måste du sätta på dms från servern!",ephemeral:true}));
 
-        
+        interaction.deferUpdate();
         let files = [];
         if(dayData.imgUrl){
             files.push(new AttachmentBuilder(dayData.imgUrl));
@@ -101,8 +101,6 @@ export class InteractionCreate implements Event {
         if(dayData.link){
             await interaction.user.send({ content: `${dayData.link}` }).catch(err => {});
         }
-
-        interaction.deferUpdate();
     }
 
     async lotteryButton(interaction: ButtonInteraction){

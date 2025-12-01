@@ -10,6 +10,7 @@ export class OpenedDay implements Command {
     data = new SlashCommandBuilder()
         .setName(this.name)
         .setDescription(this.description)
+        .setDefaultMemberPermissions(0)
         .addIntegerOption(option => option.setName("day").setDescription("The day number (1-24)").setRequired(true))
         .addStringOption(option => option.setName("password").setDescription("This day's password").setRequired(false));
     async execute(interaction: ChatInputCommandInteraction): Promise<void> {

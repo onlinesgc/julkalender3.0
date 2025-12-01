@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { Command } from "../interfaces/Command";
 import { getAllUsers } from "../models/UserModel";
 
-export class OpenedDayd implements Command {
+export class OpenedDay implements Command {
     name = "openedday";
     description = "Amount of pepole that have opened a day.";
     ephemeral = false;

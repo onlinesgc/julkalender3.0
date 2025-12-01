@@ -12,6 +12,7 @@ import { PepparkakorToplistCommand } from "./commands/pepparkakortoplist";
 import { CreateLotteryCommand } from "./commands/skapalotteri";
 import { EndLotteryCommand } from "./commands/avslutalotteri";
 import { AddPasswordCommand } from "./commands/addpassword";
+import { OpenedDay } from "./commands/openedday";
 
 dotenv.config();
 
@@ -54,7 +55,8 @@ const commands = [
     { name: "pepparkakortoplist", instance: new PepparkakorToplistCommand() },
     { name: "skapalotteri", instance: new CreateLotteryCommand() },
     { name: "avslutalotteri", instance: new EndLotteryCommand() },
-    { name: "addpassword", instance: new AddPasswordCommand() }
+    { name: "addpassword", instance: new AddPasswordCommand() },
+    { name: "openedday", instance: new OpenedDay() },
 ];
 
 for (const command of commands) {

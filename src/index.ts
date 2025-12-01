@@ -13,6 +13,7 @@ import { CreateLotteryCommand } from "./commands/skapalotteri";
 import { EndLotteryCommand } from "./commands/avslutalotteri";
 import { AddPasswordCommand } from "./commands/addpassword";
 import { OpenedDay } from "./commands/openedday";
+import { GivePepparkakaCommand } from "./commands/givepepparkaka";
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ const commands = [
     { name: "avslutalotteri", instance: new EndLotteryCommand() },
     { name: "addpassword", instance: new AddPasswordCommand() },
     { name: "openedday", instance: new OpenedDay() },
+    { name: "givepepparkaka", instance: new GivePepparkakaCommand() },
 ];
 
 for (const command of commands) {

@@ -10,9 +10,9 @@ export class GivePepparkakaCommand implements Command {
     data = new SlashCommandBuilder()
         .setName(this.name)
         .setDescription(this.description)
+        .addIntegerOption(option => option.setName("amount").setDescription("Antal pepparkakor att ge").setRequired(true))
         .addUserOption(option => option.setName("user").setDescription("Användaren att ge pepparkakor till").setRequired(false))
-        .addRoleOption(option => option.setName("role").setDescription("Rollen att ge pepparkakor till").setRequired(false))
-        .addIntegerOption(option => option.setName("amount").setDescription("Antal pepparkakor att ge").setRequired(true));
+        .addRoleOption(option => option.setName("role").setDescription("Rollen att ge pepparkakor till").setRequired(false));
 
     async execute(interaction: ChatInputCommandInteraction) {
         const user = interaction.options.getUser("user");

@@ -17,7 +17,7 @@ export class PepparkakorToplistCommand implements Command {
         let pointer = 0;
         
         const toplist = new EmbedBuilder()
-            .setTitle("Pepparkakor Topplista")
+            .setTitle("Pepparkakor <:pepparkaka:1444788514653737101> Topplista")
             .addFields(await this.generateFields(allUsers, pointer, usersPerPage))
             .setColor("Red")
             .setFooter({ text: `Visar ${Math.min(usersPerPage, allUsers.length - pointer)} av ${allUsers.length} användare` });
@@ -47,7 +47,7 @@ export class PepparkakorToplistCommand implements Command {
                 pointer -= usersPerPage;
             }
             const updatedEmbed = new EmbedBuilder()
-                .setTitle("Pepparkakor Topplista")
+                .setTitle("Pepparkakor <:pepparkaka:1444788514653737101> Topplista")
                 .addFields(await this.generateFields(allUsers, pointer, usersPerPage))
                 .setColor("Red")
                 .setFooter({ text: `Visar ${Math.min(usersPerPage, allUsers.length - pointer)} av ${allUsers.length} användare` });
@@ -83,7 +83,7 @@ export class PepparkakorToplistCommand implements Command {
             const user = users[i];
             fields.push({
                 name: `${i + 1}`,
-                value: `<@${user.discordId}> - ${user.points} pepparkakor`,
+                value: `<@${user.discordId}> - ${user.points} <:pepparkaka:1444788514653737101>`,
                 inline: false
             });
         }

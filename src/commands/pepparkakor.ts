@@ -5,7 +5,7 @@ import { getUserByDiscordId } from "../models/UserModel";
 export class PepparkakorCommand implements Command {
     name = "pepparkakor";
     description = "Kolla hur många pepparkakor du har samlat!";
-    ephemeral = true;
+    ephemeral = false;
     defer = true;
     data = new SlashCommandBuilder()
         .setName(this.name)
@@ -17,7 +17,7 @@ export class PepparkakorCommand implements Command {
         const userData = await getUserByDiscordId(user.id);
         const points = userData ? userData.points : 0;
 
-        interaction.editReply({ content: `${user.username} har samlat ihop ${points} st pepparkakor.` });
+        interaction.editReply({ content: `${user.username} har samlat ihop <:pepparkaka:1444788514653737101> ${points} st pepparkakor.` });
     }
     
 }

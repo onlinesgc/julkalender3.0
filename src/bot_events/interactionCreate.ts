@@ -75,7 +75,7 @@ export class InteractionCreate implements Event {
             .setTitle(`Lucka ${dayData.day} av 24, SGC:s discord julkalender`)
             .setDescription(dayData.text)
             .setColor("Red")
-            .setFooter({ text: `Julkalender 2023`, iconURL: interaction.client.user?.avatarURL() || undefined })
+            .setFooter({ text: `Julkalender 2025`, iconURL: interaction.client.user?.avatarURL() || undefined })
             .setTimestamp();
 
         await interaction.user

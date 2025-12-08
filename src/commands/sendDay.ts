@@ -25,7 +25,7 @@ export class SendDayCommand implements Command {
             await interaction.editReply({ content: `Day ${dayNum} does not exist.` });
             return;
         }
-        await this.sendDay(channel, dayNum, interaction.client.user.id);
+        await this.sendDay(channel, dayNum, interaction.client.user.id, ping);
         await interaction.editReply({ content: `Day ${dayNum} sent to ${channel.toString()}.` });
     }
 
